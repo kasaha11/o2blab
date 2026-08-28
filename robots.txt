@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kasaha11.github.io/o2blab/sitemap.xml
