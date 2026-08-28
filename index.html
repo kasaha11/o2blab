@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O2B Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#FAF9F7; --bg-elev:#FFFFFF; --bg-sunken:#F1EDE7;
+    --ink:#14181F; --ink-soft:#3D4450; --slate:#5A6472;
+    --line:#E3DFDA; --accent:#8C1B2F; --accent-soft:#F3E4E2; --accent-ink:#FFFFFF;
+    --footer-bg:#14181F; --footer-ink:#F4F1EE; --footer-slate:#9AA3AF; --footer-line:rgba(255,255,255,.14);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#100E12; --bg-elev:#1A171B; --bg-sunken:#151317;
+      --ink:#F1EEEC; --ink-soft:#D8D2CD; --slate:#A79E97;
+      --line:rgba(255,255,255,.13); --accent:#E08A7D; --accent-soft:rgba(224,138,125,.14); --accent-ink:#14181F;
+      --footer-bg:#0A090B; --footer-ink:#F1EEEC; --footer-slate:#A79E97; --footer-line:rgba(255,255,255,.12);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#100E12; --bg-elev:#1A171B; --bg-sunken:#151317;
+    --ink:#F1EEEC; --ink-soft:#D8D2CD; --slate:#A79E97;
+    --line:rgba(255,255,255,.13); --accent:#E08A7D; --accent-soft:rgba(224,138,125,.14); --accent-ink:#14181F;
+    --footer-bg:#0A090B; --footer-ink:#F1EEEC; --footer-slate:#A79E97; --footer-line:rgba(255,255,255,.12);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important; animation:none !important} }
+
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:Inter,ui-sans-serif,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;
+    font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{ font-family:Newsreader,"Noto Serif KR",Georgia,serif; letter-spacing:-.01em; text-wrap:balance; }
+  a{ color:inherit }
+  img,svg{ max-width:100% }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding-left:28px; padding-right:28px }
+  @media (max-width:640px){ .wrap{ padding-left:20px; padding-right:20px } }
+
+  .eyebrow{
+    font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent); margin:0 0 12px;
+  }
+
+  /* header */
+  header.site{
+    position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  }
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0; flex-wrap:wrap }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink) }
+  .brand svg{ height:30px; width:auto; color:var(--ink); flex:none }
+  .brand .name{ font-family:Newsreader,serif; font-weight:600; font-size:1.18rem; letter-spacing:-.01em }
+  .nav-right{ display:flex; align-items:center; gap:18px; flex-wrap:wrap }
+  nav.links{ display:flex; gap:24px; flex-wrap:wrap; font-size:.92rem }
+  nav.links a{ text-decoration:none; color:var(--slate) }
+  nav.links a:hover, nav.links a:focus-visible{ color:var(--accent) }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:2px }
+
+  .lang-toggle{ display:flex; gap:2px; border:1px solid var(--line); border-radius:20px; padding:2px; flex:none }
+  .lang-toggle button{ border:0; background:transparent; font-size:.76rem; font-weight:700; letter-spacing:.02em;
+    padding:5px 12px; border-radius:16px; cursor:pointer; color:var(--slate); font-family:inherit }
+  .lang-toggle button.active{ background:var(--ink); color:var(--bg) }
+  .lang-toggle button:not(.active):hover{ color:var(--ink) }
+
+  /* hero */
+  .hero{ padding:88px 0 76px; border-bottom:1px solid var(--line) }
+  .hero-grid{ display:grid; grid-template-columns:1.25fr .75fr; gap:56px; align-items:center }
+  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; gap:40px } }
+  .hero h1{ font-size:clamp(2.3rem,4.4vw,3.4rem); font-weight:600; margin:0 0 8px; line-height:1.08 }
+  .hero .full-name{ color:var(--slate); font-size:1.02rem; margin:0 0 28px }
+  .slogan{ font-family:Newsreader,serif; font-style:italic; font-weight:500; font-size:clamp(1.15rem,2vw,1.4rem);
+    color:var(--ink-soft); margin:0 0 22px; padding-left:20px; border-left:3px solid var(--accent) }
+  .hero p.lede{ color:var(--ink-soft); font-size:1.03rem; max-width:56ch; margin:0 0 26px }
+  .pi-line{ display:flex; align-items:center; gap:12px; font-size:.95rem; color:var(--slate) }
+  .pi-line strong{ color:var(--ink); font-weight:600 }
+  .hero-mark{ display:flex; align-items:center; justify-content:center }
+  .hero-mark svg{ height:min(230px,32vw); width:auto; color:var(--accent) }
+
+  section{ padding:76px 0 }
+  section.alt{ background:var(--bg-sunken) }
+  .section-head{ max-width:64ch; margin-bottom:40px }
+  h2.h-title{ font-size:clamp(1.5rem,2.6vw,2rem); font-weight:600; margin:0 0 12px }
+  .section-head p{ color:var(--slate); margin:0; font-size:1.02rem }
+
+  /* about */
+  .about-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:56px; align-items:center }
+  @media (max-width:860px){ .about-grid{ grid-template-columns:1fr } }
+  .about-grid p{ color:var(--ink-soft); margin:0 0 18px; max-width:60ch }
+  .loop-figure{ display:flex; flex-direction:column; align-items:center; gap:14px;
+    background:var(--bg-elev); border:1px solid var(--line); border-radius:16px; padding:32px 20px }
+  .loop-figure svg{ height:120px; width:auto; color:var(--accent) }
+  .loop-caption{ font-size:.85rem; color:var(--slate); text-align:center; max-width:32ch }
+
+  /* research grid */
+  .cluster{ margin-bottom:44px }
+  .cluster:last-child{ margin-bottom:0 }
+  .cluster h3{ font-size:1.02rem; font-weight:700; font-family:Inter,sans-serif; letter-spacing:.02em;
+    color:var(--ink-soft); margin:0 0 18px; padding-bottom:10px; border-bottom:1px solid var(--line) }
+  .card-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px }
+  @media (max-width:860px){ .card-grid{ grid-template-columns:1fr 1fr } }
+  @media (max-width:600px){ .card-grid{ grid-template-columns:1fr } }
+  .card{ background:var(--bg-elev); border:1px solid var(--line); border-radius:12px; padding:22px;
+    display:flex; flex-direction:column; gap:8px }
+  .card .t{ font-weight:600; font-size:1rem }
+  .card .d{ color:var(--slate); font-size:.92rem; line-height:1.55 }
+
+  /* flagship program */
+  .flagship{ background:var(--bg-elev); border:1px solid var(--line); border-radius:18px; overflow:hidden; margin-bottom:52px }
+  .flagship-img{ width:100%; display:block; aspect-ratio:2.1/1; object-fit:cover; object-position:center 30% }
+  .flagship-body{ padding:30px 32px 34px }
+  .flagship-tag{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--accent-ink); background:var(--accent); padding:4px 11px; border-radius:5px; margin-bottom:14px }
+  .flagship-body h3{ font-size:1.35rem; font-weight:600; margin:0 0 12px; font-family:Newsreader,serif }
+  .flagship-body p{ color:var(--ink-soft); margin:0 0 14px; max-width:74ch; font-size:.98rem }
+  .inst-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px }
+  .inst-badge{ font-size:.78rem; color:var(--slate); border:1px solid var(--line); border-radius:20px; padding:4px 12px }
+
+  /* grants */
+  .grant{ display:grid; grid-template-columns:170px 1fr; gap:24px; padding:22px 0; border-top:1px solid var(--line) }
+  .grant:last-child{ border-bottom:1px solid var(--line) }
+  @media (max-width:640px){ .grant{ grid-template-columns:1fr; gap:6px } }
+  .grant .period{ font-variant-numeric:tabular-nums; color:var(--accent); font-weight:600; font-size:.92rem; letter-spacing:.01em }
+  .grant .title{ font-weight:600; margin:0 0 4px; font-size:1.02rem }
+  .grant .meta{ color:var(--slate); font-size:.9rem; margin:0 }
+  .role-tag{ display:inline-block; margin-top:8px; font-size:.74rem; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--accent); background:var(--accent-soft); padding:3px 9px; border-radius:5px }
+
+  /* PI */
+  .pi-grid{ display:grid; grid-template-columns:.85fr 1.15fr; gap:56px }
+  @media (max-width:860px){ .pi-grid{ grid-template-columns:1fr } }
+  .pi-card{ background:var(--bg-elev); border:1px solid var(--line); border-radius:16px; overflow:hidden; text-align:center }
+  .pi-avatar{ width:100%; aspect-ratio:4/5; background:#fff }
+  .pi-avatar img{ width:100%; height:100%; object-fit:cover; display:block }
+  .pi-card .pbody{ padding:26px 28px 30px }
+  .pi-card .pname{ font-family:Newsreader,serif; font-weight:600; font-size:1.3rem; margin:0 0 4px }
+  .pi-card .ptitle{ color:var(--slate); font-size:.9rem; line-height:1.5; margin:0 0 18px }
+  .pi-links{ display:flex; flex-direction:column; gap:8px; font-size:.88rem; text-align:left;
+    border-top:1px solid var(--line); padding-top:16px }
+  .pi-links a{ text-decoration:none; color:var(--ink-soft) }
+  .pi-links a:hover{ color:var(--accent) }
+  .pi-links .k{ color:var(--slate); display:inline-block; min-width:52px }
+
+  .pi-bio p{ color:var(--ink-soft); margin:0 0 16px; max-width:64ch }
+  .timeline{ margin-top:26px; border-top:1px solid var(--line) }
+  .tl-row{ display:grid; grid-template-columns:130px 1fr; gap:18px; padding:13px 0; border-bottom:1px solid var(--line); font-size:.92rem }
+  @media (max-width:480px){ .tl-row{ grid-template-columns:1fr; gap:2px } }
+  .tl-row .yr{ color:var(--slate); font-variant-numeric:tabular-nums }
+  .tl-row .what strong{ font-weight:600 }
+
+  .roles-list{ margin-top:14px; padding-left:0; list-style:none; display:grid; gap:8px }
+  .roles-list li{ color:var(--ink-soft); font-size:.92rem; padding-left:16px; position:relative }
+  .roles-list li::before{ content:""; position:absolute; left:0; top:.6em; width:5px; height:5px; border-radius:50%; background:var(--accent) }
+
+  /* team */
+  .team-intro{ max-width:64ch; margin:0 0 34px }
+  .team-intro p{ color:var(--slate); margin:0; font-size:1.02rem }
+  .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:20px }
+  @media (max-width:900px){ .team-grid{ grid-template-columns:repeat(2,1fr) } }
+  @media (max-width:480px){ .team-grid{ grid-template-columns:1fr } }
+  .person-card{ background:var(--bg-elev); border:1px solid var(--line); border-radius:14px; overflow:hidden }
+  .person-photo{ width:100%; aspect-ratio:4/5; object-fit:cover; display:block; background:#fff }
+  .person-info{ padding:16px 16px 18px }
+  .person-info .pn{ font-weight:600; font-size:.98rem; margin:0 0 2px }
+  .kr{ color:var(--slate); font-weight:400; font-size:.86rem }
+  .person-info .pr{ color:var(--slate); font-size:.83rem; line-height:1.5; margin:0 0 8px }
+  .person-info .pd{ color:var(--ink-soft); font-size:.83rem; line-height:1.5; margin:0 }
+  .staff-row{ display:flex; flex-wrap:wrap; gap:14px }
+  .staff-chip{ display:flex; align-items:center; gap:10px; background:var(--bg-elev); border:1px solid var(--line);
+    border-radius:12px; padding:12px 16px; flex:1 1 240px }
+  .staff-chip .mono{ width:38px; height:38px; border-radius:50%; background:var(--accent-soft); color:var(--accent);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; flex:none }
+  .staff-chip .sn{ font-weight:600; font-size:.9rem }
+  .staff-chip .sr{ color:var(--slate); font-size:.8rem }
+
+  /* publications */
+  .pub-year{ display:flex; align-items:baseline; gap:12px; margin:34px 0 14px }
+  .pub-year:first-child{ margin-top:0 }
+  .pub-year .num{ font-family:Newsreader,serif; font-weight:600; font-size:1.3rem; color:var(--accent) }
+  .pub-year .line{ flex:1; height:1px; background:var(--line) }
+  ul.pubs{ list-style:none; margin:0; padding:0; display:grid; gap:14px }
+  ul.pubs li{ color:var(--ink-soft); font-size:.95rem; line-height:1.6; padding-left:0 }
+  ul.pubs li .j{ color:var(--slate); font-style:italic }
+  ul.pubs li b{ color:var(--ink) }
+  .pub-note{ margin-top:30px; padding-top:22px; border-top:1px solid var(--line); color:var(--slate); font-size:.92rem }
+  .pub-note a{ color:var(--accent); text-decoration:underline; text-underline-offset:3px }
+
+  /* join */
+  .join-band{ background:var(--accent-soft); border:1px solid var(--line); border-radius:18px;
+    padding:40px 36px; display:grid; grid-template-columns:1.4fr auto; gap:26px; align-items:center }
+  @media (max-width:700px){ .join-band{ grid-template-columns:1fr; text-align:left } }
+  .join-band h2{ font-size:1.4rem; margin:0 0 8px }
+  .join-band p{ margin:0; color:var(--ink-soft); max-width:56ch }
+  .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:var(--bg);
+    text-decoration:none; padding:13px 22px; border-radius:9px; font-weight:600; font-size:.92rem; white-space:nowrap }
+  .btn:hover{ background:var(--accent) }
+
+  /* photo banner */
+  .photo-banner{ position:relative; height:260px; overflow:hidden }
+  .photo-banner img{ width:100%; height:100%; object-fit:cover; display:block }
+  .photo-banner .cap{ position:absolute; left:0; right:0; bottom:0; padding:18px 28px;
+    background:linear-gradient(0deg, rgba(0,0,0,.62), rgba(0,0,0,0)); color:#F4F1EE; font-size:.88rem }
+  .photo-banner .cap b{ font-weight:600 }
+
+  /* footer */
+  footer.site{ background:var(--footer-bg); color:var(--footer-ink); padding:56px 0 34px }
+  .foot-grid{ display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; padding-bottom:34px; border-bottom:1px solid var(--footer-line) }
+  @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; gap:30px } }
+  .foot-brand{ display:flex; align-items:center; gap:12px; margin-bottom:14px }
+  .foot-brand svg{ height:30px; width:30px }
+  .foot-brand .name{ font-family:Newsreader,serif; font-weight:600; font-size:1.1rem }
+  .foot-col h4{ font-size:.74rem; text-transform:uppercase; letter-spacing:.1em; color:var(--footer-slate); margin:0 0 14px }
+  .foot-col p, .foot-col a{ color:var(--footer-ink); font-size:.9rem; text-decoration:none; display:block; margin:0 0 8px; line-height:1.55 }
+  .foot-col a:hover{ color:var(--accent) }
+  .foot-bottom{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:22px;
+    color:var(--footer-slate); font-size:.82rem }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">
+      <svg viewBox="-4 -18 124 128" role="img" aria-label="O2B Lab mark"><path d="M6.0 20.0 C29.5 -17.0 64.3 -11.6 92.6 2.9" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/><path d="M108.0 12.0 L85.0 8.7 L96.1 -8.0 Z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="62" r="30"/><path d="M72 27 V97"/><path d="M72 27 H80 A17.5 17.5 0 0 1 80 62 H72"/><path d="M72 62 H84 A17.5 17.5 0 0 1 84 97 H72"/></g></svg>
+      <span class="name">O2B Lab</span>
+    </a>
+    <div class="nav-right">
+      <nav class="links">
+        <a href="#about" data-en="About" data-ko="소개">About</a>
+        <a href="#research" data-en="Research" data-ko="연구분야">Research</a>
+        <a href="#grants" data-en="Grants" data-ko="연구비">Grants</a>
+        <a href="#pi" data-en="PI" data-ko="책임교수">PI</a>
+        <a href="#team" data-en="Team" data-ko="연구진">Team</a>
+        <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
+        <a href="#join" data-en="Join Us" data-ko="합류안내">Join Us</a>
+        <a href="#contact" data-en="Contact" data-ko="연락처">Contact</a>
+      </nav>
+      <div class="lang-toggle" role="group" aria-label="Language / 언어">
+        <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="ko">KO</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow" data-en="Korea University Guro Hospital · Department of Surgery" data-ko="고려대학교 구로병원 · 외과학교실">Korea University Guro Hospital · Department of Surgery</p>
+        <h1>O2B Lab</h1>
+        <p class="full-name" data-en="Operation-to-Bench Translational Oncology, Korea University" data-ko="고려대학교 Operation-to-Bench 중개종양학 연구실">Operation-to-Bench Translational Oncology, Korea University</p>
+        <p class="slogan" data-en="&quot;From the Operating Room to the Bench, and Back to the Patient.&quot;" data-ko="&quot;수술장에서 실험실로, 그리고 다시 환자에게.&quot;">"From the Operating Room to the Bench, and Back to the Patient."</p>
+        <p class="lede" data-en="We are a surgeon-led translational oncology laboratory built around a simple loop: unmet needs identified in the operating room and clinic become bench questions, and bench findings are pressure-tested against real surgical specimens and outcomes before they are asked to matter for patients." data-ko="저희는 하나의 단순한 순환 구조 위에 세워진 외과의사 주도 중개종양학 연구실입니다. 수술장과 외래에서 발견한 미해결 임상 문제가 실험실의 연구 질문이 되고, 실험실에서 얻은 결과는 실제 수술 검체와 환자 예후로 다시 검증받은 뒤에야 비로소 환자 진료에 활용됩니다.">We are a surgeon-led translational oncology laboratory built around a simple loop: unmet needs identified in the operating room and clinic become bench questions, and bench findings are pressure-tested against real surgical specimens and outcomes before they are asked to matter for patients.</p>
+        <div class="pi-line">
+          <span data-en="Principal Investigator —" data-ko="책임교수 —">Principal Investigator —</span><strong>Sanghee Kang, M.D., Ph.D.</strong>
+        </div>
+      </div>
+      <div class="hero-mark">
+        <svg viewBox="-4 -18 124 128" role="img" aria-label="O2B Lab canopy mark, large"><path d="M6.0 20.0 C29.5 -17.0 64.3 -11.6 92.6 2.9" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/><path d="M108.0 12.0 L85.0 8.7 L96.1 -8.0 Z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="62" r="30"/><path d="M72 27 V97"/><path d="M72 27 H80 A17.5 17.5 0 0 1 80 62 H72"/><path d="M72 62 H84 A17.5 17.5 0 0 1 84 97 H72"/></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <p class="eyebrow" data-en="Operation to Bench" data-ko="Operation to Bench">Operation to Bench</p>
+        <h2 class="h-title" data-en="Why &quot;O2B&quot;" data-ko="왜 &quot;O2B&quot;인가">Why "O2B"</h2>
+        <p data-en="Most translational labs move in one direction: clinic to bench. Ours is built to close the loop. As a practicing colorectal and hepatobiliary surgical oncologist, the Principal Investigator sees, weekly, which clinical questions — chemoresistance in CRLM, who actually benefits from total neoadjuvant therapy, why MSI-H/dMMR and MSS/pMMR tumors respond so differently to immunotherapy — have no adequate laboratory model to answer them." data-ko="대부분의 중개연구실은 한 방향으로만 움직입니다 — 임상에서 실험실로. 저희는 이 순환을 닫도록 설계되었습니다. 대장항문외과·간담췌 수술을 진료하는 외과 종양전문의로서, 책임교수는 매주 어떤 임상 질문 — CRLM에서의 항암제 내성, 총선행보조요법(TNT)의 실제 수혜자, MSI-H/dMMR과 MSS/pMMR 종양이 면역치료에 왜 이렇게 다르게 반응하는지 — 에 답할 적절한 실험 모델이 없는지를 직접 목격합니다.">Most translational labs move in one direction: clinic to bench. Ours is built to close the loop. As a practicing colorectal and hepatobiliary surgical oncologist, the Principal Investigator sees, weekly, which clinical questions — chemoresistance in CRLM, who actually benefits from total neoadjuvant therapy, why MSI-H/dMMR and MSS/pMMR tumors respond so differently to immunotherapy — have no adequate laboratory model to answer them.</p>
+        <p data-en="O2B Lab exists to build those models directly from surgical specimens — patient-derived organoids, CAF co-cultures, PDX, organ-on-a-chip and multi-organ microphysiological systems — and to route what they teach us back into how patients are treated, not just into a manuscript." data-ko="O2B Lab은 이러한 모델을 수술 검체로부터 직접 만들어내기 위해 존재합니다 — 환자유래 오가노이드, CAF 공배양, PDX, organ-on-a-chip, 다장기 미세생리시스템(MPS) 등을 통해서요. 그리고 그 결과를 논문으로만 끝내지 않고 실제 환자 치료 방식으로 되돌리는 것을 목표로 합니다.">O2B Lab exists to build those models directly from surgical specimens — patient-derived organoids, CAF co-cultures, PDX, organ-on-a-chip and multi-organ microphysiological systems — and to route what they teach us back into how patients are treated, not just into a manuscript.</p>
+        <p data-en="A period spent as a Visiting Assistant Professor in the Department of Systems Biology at MD Anderson Cancer Center (2016–2017) shaped this approach: genomic and transcriptomic subtyping is only useful to a surgeon when it changes a decision at the bedside." data-ko="MD Anderson Cancer Center 시스템생물학과에서 방문조교수로 지낸 시기(2016–2017)가 이러한 접근법의 바탕이 되었습니다 — 유전체·전사체 아형 분류는 그것이 실제로 병상에서의 결정을 바꿀 때에만 외과의사에게 의미가 있습니다.">A period spent as a Visiting Assistant Professor in the Department of Systems Biology at MD Anderson Cancer Center (2016–2017) shaped this approach: genomic and transcriptomic subtyping is only useful to a surgeon when it changes a decision at the bedside.</p>
+      </div>
+      <div class="loop-figure">
+        <svg viewBox="0 0 170 120" role="img" aria-label="Translational cycle: operating room to bench and back to patient"><g fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="butt" stroke-linejoin="round"><path d="M51.5 35.4 A44 44 0 0 1 124.5 35.4"/><path d="M124.5 84.6 A44 44 0 0 1 51.5 84.6"/></g><g fill="currentColor"><path d="M124.5 35.4 L111.8 28.2 L122.6 21.0 Z"/><path d="M51.5 84.6 L64.2 91.8 L53.4 99.0 Z"/></g><g fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="30" cy="60" r="20"/><path d="M136 30 V90"/><path d="M136 30 H142 A15 15 0 0 1 142 60 H136"/><path d="M136 60 H145 A15 15 0 0 1 145 90 H136"/></g></svg>
+        <p class="loop-caption" data-en="Operating room → bench → back to the patient. A closed loop, not a one-way pipeline." data-ko="수술장 → 실험실 → 다시 환자에게. 일방향 파이프라인이 아닌 닫힌 순환 구조입니다.">Operating room → bench → back to the patient. A closed loop, not a one-way pipeline.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="research">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" data-en="Research Focus" data-ko="연구 분야">Research Focus</p>
+        <h2 class="h-title" data-en="Three questions, one specimen" data-ko="하나의 검체, 세 가지 질문">Three questions, one specimen</h2>
+        <p data-en="Every project starts from tissue collected in the operating room and is worked in three directions at once: what the tumor is doing clinically, what its molecular profile says, and what a lab-built model of it can predict before the next patient is treated." data-ko="모든 프로젝트는 수술장에서 확보한 조직에서 출발하여 동시에 세 방향으로 진행됩니다 — 종양이 임상적으로 어떤 경과를 보이는지, 분자적 프로파일은 무엇을 말하는지, 그리고 실험실에서 만든 모델이 다음 환자를 치료하기 전에 무엇을 예측해낼 수 있는지.">Every project starts from tissue collected in the operating room and is worked in three directions at once: what the tumor is doing clinically, what its molecular profile says, and what a lab-built model of it can predict before the next patient is treated.</p>
+      </div>
+
+      <div class="flagship">
+        <img class="flagship-img" src="assets/photos/organoid-panel.jpg" alt="Normal and tumor organoids cultured from colon, stomach, liver, lung and kidney surgical specimens in the O2B Lab">
+        <div class="flagship-body">
+          <span class="flagship-tag" data-en="Flagship Program" data-ko="핵심 연구과제">Flagship Program</span>
+          <h3 data-en="Multi-organ organoid &amp; organ-chip platform" data-ko="다장기 오가노이드 및 organ-chip 플랫폼">Multi-organ organoid &amp; organ-chip platform</h3>
+          <p data-en="This is the lab's top research priority: multi-organ organoid culture built directly from patient-derived tissue — colon, liver, and other surgical specimens cultured together rather than as isolated single-organ models — to better approximate how organs actually interact in a patient. The platform underlies the lab's active work on microphysiological systems for immunotherapeutic and antibody-therapeutic safety assessment, and on clinical-concordance validation of patient-derived biomimetic models (see Grants below)." data-ko="이것이 저희 연구실의 최우선 연구 과제입니다: 환자유래 조직으로부터 직접 만든 다장기 오가노이드 배양 — 대장, 간 등 여러 수술 검체를 단일 장기 모델이 아닌 함께 배양하여, 실제 환자 체내에서 장기들이 상호작용하는 방식을 더 가깝게 재현합니다. 이 플랫폼은 면역치료제·항체치료제의 안전성 평가를 위한 미세생리시스템 연구와, 환자유래 생체모사모델의 임상 일치도 검증 연구(아래 연구비 참조)의 기반이 됩니다.">This is the lab's top research priority: multi-organ organoid culture built directly from patient-derived tissue — colon, liver, and other surgical specimens cultured together rather than as isolated single-organ models — to better approximate how organs actually interact in a patient. The platform underlies the lab's active work on microphysiological systems for immunotherapeutic and antibody-therapeutic safety assessment, and on clinical-concordance validation of patient-derived biomimetic models (see Grants below).</p>
+          <p data-en="The photo above is our own bank of normal and tumor organoids derived from colon, stomach, liver, lung and kidney surgical specimens — the raw material for every multi-organ system we build." data-ko="위 사진은 대장·위·간·폐·신장 수술 검체로부터 직접 구축한 저희 실험실의 정상 및 종양 오가노이드 뱅크입니다 — 저희가 만드는 모든 다장기 시스템의 원재료입니다.">The photo above is our own bank of normal and tumor organoids derived from colon, stomach, liver, lung and kidney surgical specimens — the raw material for every multi-organ system we build.</p>
+          <div class="inst-row">
+            <span class="inst-badge" data-en="Seoul National University" data-ko="서울대학교">Seoul National University</span>
+            <span class="inst-badge">UNIST</span>
+            <span class="inst-badge">국가독성과학연구소</span>
+            <span class="inst-badge">KAIST</span>
+            <span class="inst-badge">KIST</span>
+            <span class="inst-badge">DT&amp;CRO <span style="opacity:.7" data-en="(industry partner)" data-ko="(기업)">(industry partner)</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cluster">
+        <h3 data-en="Clinical &amp; Translational Oncology" data-ko="임상·중개 종양학">Clinical &amp; Translational Oncology</h3>
+        <div class="card-grid">
+          <div class="card">
+            <div class="t" data-en="Colorectal cancer liver metastasis (CRLM)" data-ko="대장암 간전이(CRLM)">Colorectal cancer liver metastasis (CRLM)</div>
+            <div class="d" data-en="Surgical decision-making and outcomes research in resectable and borderline-resectable liver metastasis, linking surgical technique and timing to recurrence and survival." data-ko="절제 가능 및 경계절제가능 간전이에서의 수술적 의사결정과 예후 연구 — 수술 기법과 시기가 재발 및 생존과 어떻게 연결되는지를 규명합니다.">Surgical decision-making and outcomes research in resectable and borderline-resectable liver metastasis, linking surgical technique and timing to recurrence and survival.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="Rectal cancer &amp; TNT" data-ko="직장암과 TNT(총선행보조요법)">Rectal cancer &amp; TNT</div>
+            <div class="d" data-en="Response stratification in total neoadjuvant therapy for rectal cancer — identifying who can be spared radical surgery and who needs it." data-ko="직장암 총선행보조요법(TNT)에서의 반응군 분류 — 근치적 수술을 피할 수 있는 환자와 반드시 필요한 환자를 가려냅니다.">Response stratification in total neoadjuvant therapy for rectal cancer — identifying who can be spared radical surgery and who needs it.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="ctDNA &amp; DNA methylation" data-ko="ctDNA 및 DNA 메틸화">ctDNA &amp; DNA methylation</div>
+            <div class="d" data-en="Circulating tumor DNA and methylation biomarkers for minimal residual disease detection and treatment-response monitoring after curative-intent surgery." data-ko="근치적 수술 후 미세잔존질환 발견과 치료반응 모니터링을 위한 순환종양DNA 및 메틸화 바이오마커 연구.">Circulating tumor DNA and methylation biomarkers for minimal residual disease detection and treatment-response monitoring after curative-intent surgery.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="MSI-H/dMMR vs. MSS/pMMR immunotherapy" data-ko="MSI-H/dMMR 대 MSS/pMMR 면역치료">MSI-H/dMMR vs. MSS/pMMR immunotherapy</div>
+            <div class="d" data-en="Mechanisms of differential immune-checkpoint response between MSI-H/dMMR and MSS/pMMR colorectal tumors, and strategies to sensitize the &quot;cold&quot; MSS/pMMR majority." data-ko="MSI-H/dMMR와 MSS/pMMR 대장암 간의 면역관문억제제 반응 차이 기전을 규명하고, 다수를 차지하는 &#39;냉(cold)&#39; MSS/pMMR 종양을 면역치료에 민감하게 만들기 위한 전략을 연구합니다.">Mechanisms of differential immune-checkpoint response between MSI-H/dMMR and MSS/pMMR colorectal tumors, and strategies to sensitize the "cold" MSS/pMMR majority.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="Endoscopy-based gut microbiome research" data-ko="대장내시경 기반 장내 마이크로바이옴 연구">Endoscopy-based gut microbiome research</div>
+            <div class="d" data-en="Led directly by Prof. Jun Woo Bong and Prof. Yeonuk Ju: fecal and mucosal microbiome profiling performed at the time of screening/surveillance colonoscopy, linking microbiome composition to colorectal neoplasia risk and post-surgical outcomes." data-ko="봉준우 교수, 주연욱 교수가 직접 수행합니다: 선별·추적 대장내시경 시행 시 분변 및 점막 마이크로바이옴을 분석하여, 장내미생물 구성과 대장종양 위험 및 수술 후 예후의 연관성을 규명합니다.">Led directly by Prof. Jun Woo Bong and Prof. Yeonuk Ju: fecal and mucosal microbiome profiling performed at the time of screening/surveillance colonoscopy, linking microbiome composition to colorectal neoplasia risk and post-surgical outcomes.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cluster">
+        <h3 data-en="Cancer Genomics &amp; Clinical AI" data-ko="암 유전체학 및 임상 AI">Cancer Genomics &amp; Clinical AI</h3>
+        <div class="card-grid">
+          <div class="card">
+            <div class="t" data-en="Cancer genomics &amp; multi-omics" data-ko="암 유전체학 및 멀티오믹스">Cancer genomics &amp; multi-omics</div>
+            <div class="d" data-en="Genomic and transcriptomic subtyping of colorectal, hepatocellular and gastric tumors to connect molecular subtype to clinical behavior and treatment sensitivity." data-ko="대장암·간세포암·위암의 유전체 및 전사체 아형 분류를 통해 분자아형과 임상경과·치료 민감도의 연관성을 규명합니다.">Genomic and transcriptomic subtyping of colorectal, hepatocellular and gastric tumors to connect molecular subtype to clinical behavior and treatment sensitivity.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="RNA-seq, single-cell &amp; spatial omics" data-ko="RNA-seq, 단일세포 및 공간전사체 분석">RNA-seq, single-cell &amp; spatial omics</div>
+            <div class="d" data-en="Bulk, single-cell and spatial transcriptomics of surgical specimens to map tumor–stroma–immune architecture across treatment response groups." data-ko="수술 검체의 벌크·단일세포·공간전사체 분석을 통해 치료반응군별 종양-기질-면역 구조를 지도화합니다.">Bulk, single-cell and spatial transcriptomics of surgical specimens to map tumor–stroma–immune architecture across treatment response groups.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="Clinical AI &amp; prediction models" data-ko="임상 AI 및 예측모델">Clinical AI &amp; prediction models</div>
+            <div class="d" data-en="Machine learning (including XGBoost-based) prediction models built on real-world surgical and oncologic outcomes data, developed for bedside deployment rather than benchmark performance alone." data-ko="실제 수술·종양학적 예후 데이터를 기반으로 한 머신러닝(XGBoost 포함) 예측모델을 개발합니다 — 목표는 벤치마크 성능이 아니라 실제 임상 적용입니다.">Machine learning (including XGBoost-based) prediction models built on real-world surgical and oncologic outcomes data, developed for bedside deployment rather than benchmark performance alone.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cluster">
+        <h3 data-en="Preclinical &amp; Biofabrication Platforms" data-ko="전임상 및 생체모사 플랫폼">Preclinical &amp; Biofabrication Platforms</h3>
+        <div class="card-grid">
+          <div class="card">
+            <div class="t" data-en="Patient-derived organoids &amp; CAF" data-ko="환자유래 오가노이드 및 CAF">Patient-derived organoids &amp; CAF</div>
+            <div class="d" data-en="Organoid biobanking directly from surgical and endoscopic specimens, co-cultured with patient-matched cancer-associated fibroblasts to preserve the tumor microenvironment." data-ko="수술 및 내시경 검체로부터 직접 오가노이드를 바이오뱅킹하고, 환자 맞춤 암관련섬유아세포(CAF)와 공배양하여 종양미세환경을 보존합니다.">Organoid biobanking directly from surgical and endoscopic specimens, co-cultured with patient-matched cancer-associated fibroblasts to preserve the tumor microenvironment.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="PDX models" data-ko="PDX 모델">PDX models</div>
+            <div class="d" data-en="Patient-derived xenografts for in vivo validation of drug response signals first observed in organoid and genomic data." data-ko="오가노이드 및 유전체 데이터에서 먼저 관찰된 약물반응 신호를 생체 내에서 검증하기 위한 환자유래 이종이식(PDX) 모델입니다.">Patient-derived xenografts for in vivo validation of drug response signals first observed in organoid and genomic data.</div>
+          </div>
+          <div class="card">
+            <div class="t" data-en="Organ-on-a-chip &amp; multi-organ MPS" data-ko="Organ-on-a-chip 및 다장기 MPS">Organ-on-a-chip &amp; multi-organ MPS</div>
+            <div class="d" data-en="Microphysiological systems and multi-organ-on-a-chip platforms for immunotherapy and antibody-drug conjugate (ADC) efficacy and safety assessment, built with biochip and bioengineering collaborators." data-ko="바이오칩·생체공학 협력기관과 함께 구축한, 면역치료제 및 항체약물접합체(ADC)의 효능·안전성 평가를 위한 미세생리시스템(MPS) 및 다장기칩 플랫폼입니다.">Microphysiological systems and multi-organ-on-a-chip platforms for immunotherapy and antibody-drug conjugate (ADC) efficacy and safety assessment, built with biochip and bioengineering collaborators.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="grants">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" data-en="Ongoing Research Grants" data-ko="진행 중인 연구비">Ongoing Research Grants</p>
+        <h2 class="h-title" data-en="Current funding" data-ko="현재 연구비 현황">Current funding</h2>
+        <p data-en="All three are funded programs building and validating patient-derived biomimetic models, with the PI serving as subproject investigator." data-ko="세 과제 모두 환자유래 생체모사모델을 구축·검증하는 지원 과제이며, 책임교수는 세부과제 책임자로 참여하고 있습니다.">All three are funded programs building and validating patient-derived biomimetic models, with the PI serving as subproject investigator.</p>
+      </div>
+
+      <div class="grant">
+        <div class="period">11/2024 – 02/2029</div>
+        <div>
+          <p class="title" data-en="Development of a Microphysiological System for Safety Assessment of Immunotherapeutics" data-ko="면역치료제 안전성 평가를 위한 미세생리시스템 개발">Development of a Microphysiological System for Safety Assessment of Immunotherapeutics</p>
+          <p class="meta" data-en="Korean ARPA-H Project · Korea Health Industry Development Institute (KHIDI)" data-ko="한국형 ARPA-H 프로젝트 · 한국보건산업진흥원(KHIDI)">Korean ARPA-H Project · Korea Health Industry Development Institute (KHIDI)</p>
+          <span class="role-tag" data-en="Subproject Principal Investigator" data-ko="세부과제 책임자">Subproject Principal Investigator</span>
+        </div>
+      </div>
+      <div class="grant">
+        <div class="period">03/2026 – 02/2028</div>
+        <div>
+          <p class="title" data-en="Development of Predictive Evaluation Technology for the Immunotoxicity of Antibody Therapeutics" data-ko="항체치료제 면역독성 예측평가 기술 개발">Development of Predictive Evaluation Technology for the Immunotoxicity of Antibody Therapeutics</p>
+          <p class="meta" data-en="Safety Evaluation Research Program · Ministry of Food and Drug Safety (MFDS)" data-ko="안전성평가기술개발사업 · 식품의약품안전처(MFDS)">Safety Evaluation Research Program · Ministry of Food and Drug Safety (MFDS)</p>
+          <span class="role-tag" data-en="Subproject Principal Investigator" data-ko="세부과제 책임자">Subproject Principal Investigator</span>
+        </div>
+      </div>
+      <div class="grant">
+        <div class="period">04/2026 – 02/2031</div>
+        <div>
+          <p class="title" data-en="Clinical Concordance Evaluation Based on Patient-Derived Biomimetic Models" data-ko="환자유래 생체모사모델 기반 임상 일치도 평가">Clinical Concordance Evaluation Based on Patient-Derived Biomimetic Models</p>
+          <p class="meta" data-en="KIST Institutional Research Program · Ministry of Science and ICT (MSIT)" data-ko="KIST 기관고유사업 · 과학기술정보통신부(MSIT)">KIST Institutional Research Program · Ministry of Science and ICT (MSIT)</p>
+          <span class="role-tag" data-en="Subproject Principal Investigator" data-ko="세부과제 책임자">Subproject Principal Investigator</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="pi">
+    <div class="wrap pi-grid">
+      <div class="pi-card">
+        <div class="pi-avatar">
+          <img src="assets/photos/kang-sanghee.jpg" alt="Sanghee Kang, M.D., Ph.D.">
+        </div>
+        <div class="pbody">
+          <p class="pname">Sanghee Kang, M.D., Ph.D.</p>
+          <p class="ptitle" data-en="Professor, Department of Surgery&lt;br&gt;Korea University College of Medicine&lt;br&gt;Assistant Dean for International Affairs&lt;br&gt;Division of Colon and Rectal Surgery&lt;br&gt;Korea University Guro Hospital" data-ko="외과학교실 교수&lt;br&gt;고려대학교 의과대학&lt;br&gt;국제협력담당 부학장&lt;br&gt;대장항문외과&lt;br&gt;고려대학교 구로병원">Professor, Department of Surgery<br>Korea University College of Medicine<br>Assistant Dean for International Affairs<br>Division of Colon and Rectal Surgery<br>Korea University Guro Hospital</p>
+          <div class="pi-links">
+            <a href="mailto:kasaha1@korea.ac.kr"><span class="k" data-en="Email" data-ko="이메일">Email</span> kasaha1@korea.ac.kr</a>
+            <a href="tel:+82226261147"><span class="k" data-en="Tel" data-ko="전화">Tel</span> +82-2-2626-1147</a>
+            <a href="https://orcid.org/0000-0002-6097-8831" target="_blank" rel="noopener"><span class="k">ORCID</span> 0000-0002-6097-8831</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pi-bio">
+        <p class="eyebrow" data-en="Principal Investigator" data-ko="책임교수">Principal Investigator</p>
+        <h2 class="h-title" data-en="Surgeon-scientist" data-ko="외과의사-과학자">Surgeon-scientist</h2>
+        <p data-en="Dr. Kang specializes in surgery for colorectal and rectal cancer and colorectal liver metastasis, and also performs hernia repair and colonoscopy. She also serves as an editor and peer reviewer for surgical and oncology journals, which shapes how the lab approaches study design and evidence — with particular attention to selection bias, sample size, appropriate multivariable analysis, and external validation before any clinical claim leaves the lab." data-ko="강상희 교수는 대장암·직장암 및 대장암 간전이 수술을 전문으로 하며, 탈장 수술과 대장내시경도 함께 시행합니다. 외과·종양학 학술지의 편집위원 및 심사위원으로도 활동하고 있으며, 이는 저희 실험실이 연구설계와 근거를 다루는 방식에 그대로 반영됩니다 — 어떤 임상적 주장이든 실험실 밖으로 나가기 전에 선택 편향, 표본 수, 적절한 다변량 분석, 외적 타당도 검증을 엄격히 점검합니다.">Dr. Kang specializes in surgery for colorectal and rectal cancer and colorectal liver metastasis, and also performs hernia repair and colonoscopy. She also serves as an editor and peer reviewer for surgical and oncology journals, which shapes how the lab approaches study design and evidence — with particular attention to selection bias, sample size, appropriate multivariable analysis, and external validation before any clinical claim leaves the lab.</p>
+
+        <div class="timeline">
+          <div class="tl-row"><div class="yr">2023 – <span data-en="present" data-ko="현재">present</span></div><div class="what"><strong data-en="Professor" data-ko="교수">Professor</strong>, Korea University Guro Hospital</div></div>
+          <div class="tl-row"><div class="yr">2019 – 2023</div><div class="what"><strong data-en="Associate Professor" data-ko="부교수">Associate Professor</strong>, Korea University Guro Hospital</div></div>
+          <div class="tl-row"><div class="yr">2016 – 2017</div><div class="what"><strong data-en="Visiting Assistant Professor" data-ko="방문조교수">Visiting Assistant Professor</strong>, Dept. of Systems Biology, MD Anderson Cancer Center</div></div>
+          <div class="tl-row"><div class="yr">2014 – 2019</div><div class="what"><strong data-en="Clinical Assistant Professor" data-ko="임상조교수">Clinical Assistant Professor</strong>, Korea University Guro Hospital</div></div>
+          <div class="tl-row"><div class="yr">2009 – 2015</div><div class="what"><strong data-en="Ph.D., Medical Science" data-ko="의과학박사">Ph.D., Medical Science</strong>, Korea University Graduate School</div></div>
+          <div class="tl-row"><div class="yr">2005 – 2008</div><div class="what"><strong data-en="M.M.Sc." data-ko="의과학석사">M.M.Sc.</strong>, Korea University Graduate School</div></div>
+          <div class="tl-row"><div class="yr">1998 – 2004</div><div class="what"><strong data-en="M.D." data-ko="의학사(M.D.)">M.D.</strong>, Korea University College of Medicine</div></div>
+        </div>
+
+        <p class="eyebrow" style="margin-top:34px" data-en="Editorial &amp; Society Roles" data-ko="학회 및 편집위원 활동">Editorial &amp; Society Roles</p>
+        <ul class="roles-list">
+          <li data-en="General Secretary, Korean Hernia Society" data-ko="대한탈장학회 총무이사">General Secretary, Korean Hernia Society</li>
+          <li data-en="Director of Information, Korean Association of Robotic Surgeons" data-ko="대한로봇수술학회 정보이사">Director of Information, Korean Association of Robotic Surgeons</li>
+          <li data-en="Board Member, Korean BioChip Society (Secretary, In Vitro Diagnostic Devices Division)" data-ko="한국바이오칩학회 이사(체외진단기기분과 간사)">Board Member, Korean BioChip Society (Secretary, In Vitro Diagnostic Devices Division)</li>
+          <li data-en="Editorial Board Member &amp; Public Relations Committee Member, Korean Society of Coloproctology" data-ko="대한대장항문학회 편집위원 및 홍보위원">Editorial Board Member &amp; Public Relations Committee Member, Korean Society of Coloproctology</li>
+          <li data-en="Education Committee Member, Korean Society of Surgical Oncology" data-ko="대한외과종양학회 교육위원">Education Committee Member, Korean Society of Surgical Oncology</li>
+          <li data-en="Academic Committee Member, Korean Surgical Skills Study Group" data-ko="대한외과술기연구회 학술위원">Academic Committee Member, Korean Surgical Skills Study Group</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="wrap">
+      <div class="team-intro">
+        <p class="eyebrow" data-en="Research Team" data-ko="연구진">Research Team</p>
+        <h2 class="h-title" data-en="Across surgery, the lab, and the clinic" data-ko="외과·실험실·임상을 아우르는 연구진">Across surgery, the lab, and the clinic</h2>
+        <p data-en="O2B Lab is a joint effort across two surgical divisions and the bench, held together by dedicated clinical research and administrative staff." data-ko="O2B Lab은 두 외과 분과와 실험실이 함께하는 공동 연구팀이며, 임상연구코디네이터와 행정인력이 이를 뒷받침하고 있습니다.">O2B Lab is a joint effort across two surgical divisions and the bench, held together by dedicated clinical research and administrative staff.</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="person-card">
+          <img class="person-photo" src="assets/photos/bong-junwoo.jpg" alt="Jun Woo Bong, M.D.">
+          <div class="person-info">
+            <p class="pn">Jun Woo Bong <span class="kr">봉준우</span></p>
+            <p class="pr" data-en="Professor, Division of Colon and Rectal Surgery" data-ko="교수, 대장항문외과">Professor, Division of Colon and Rectal Surgery</p>
+            <p class="pd" data-en="Colorectal surgical outcomes research; co-leads the endoscopy-based gut microbiome study." data-ko="대장항문외과 수술 예후 연구를 수행하며, 대장내시경 기반 마이크로바이옴 연구를 공동으로 이끌고 있습니다.">Colorectal surgical outcomes research; co-leads the endoscopy-based gut microbiome study.</p>
+          </div>
+        </div>
+        <div class="person-card">
+          <img class="person-photo" src="assets/photos/ju-yeonuk.jpg" alt="Yeonuk Ju, M.D.">
+          <div class="person-info">
+            <p class="pn">Yeonuk Ju <span class="kr">주연욱</span></p>
+            <p class="pr" data-en="Professor, Division of Colon and Rectal Surgery" data-ko="교수, 대장항문외과">Professor, Division of Colon and Rectal Surgery</p>
+            <p class="pd" data-en="Colorectal surgical outcomes research; co-leads the endoscopy-based gut microbiome study." data-ko="대장항문외과 수술 예후 연구를 수행하며, 대장내시경 기반 마이크로바이옴 연구를 공동으로 이끌고 있습니다.">Colorectal surgical outcomes research; co-leads the endoscopy-based gut microbiome study.</p>
+          </div>
+        </div>
+        <div class="person-card">
+          <img class="person-photo" src="assets/photos/kim-bugyeom.jpg" alt="Bu-Gyeom Kim, Ph.D.">
+          <div class="person-info">
+            <p class="pn">Bu-Gyeom Kim, Ph.D. <span class="kr">김부겸</span></p>
+            <p class="pr" data-en="Research Scientist, O2B Lab" data-ko="연구원, O2B Lab">Research Scientist, O2B Lab</p>
+            <p class="pd" data-en="Bench lead for translational pharmacology and cancer-cell biology (immunotherapy sensitization, apoptosis mechanisms)." data-ko="중개약리학 및 암세포생물학(면역치료 민감화, 세포사멸 기전) 연구를 담당하는 실험실 책임연구원입니다.">Bench lead for translational pharmacology and cancer-cell biology (immunotherapy sensitization, apoptosis mechanisms).</p>
+          </div>
+        </div>
+        <div class="person-card">
+          <img class="person-photo" src="assets/photos/kim-wooyoung.jpg" alt="Woo Young Kim, M.D.">
+          <div class="person-info">
+            <p class="pn">Woo Young Kim <span class="kr">김우영</span></p>
+            <p class="pr" data-en="Professor, Division of Breast and Endocrine Surgery" data-ko="교수, 유방내분비외과">Professor, Division of Breast and Endocrine Surgery</p>
+            <p class="pd" data-en="Collaborates on immunotherapy-sensitization work extending the lab's platform to breast cancer." data-ko="실험실의 플랫폼을 유방암으로 확장하는 면역치료 민감화 연구에 협력하고 있습니다.">Collaborates on immunotherapy-sensitization work extending the lab's platform to breast cancer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="staff-row">
+        <div class="staff-chip">
+          <span class="mono">SH</span>
+          <div><div class="sn">Sunwook Ham <span class="kr" style="font-weight:400">함선욱</span></div><div class="sr" data-en="Clinical Research Coordinator (CRC)" data-ko="임상연구코디네이터(CRC)">Clinical Research Coordinator (CRC)</div></div>
+        </div>
+        <div class="staff-chip">
+          <span class="mono">NK</span>
+          <div><div class="sn">Naria Kan <span class="kr" style="font-weight:400">간나리아</span></div><div class="sr" data-en="Lab Administrator" data-ko="행정담당">Lab Administrator</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="publications">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" data-en="Selected Publications" data-ko="대표 논문">Selected Publications</p>
+        <h2 class="h-title" data-en="Recent papers, 2023 – 2026" data-ko="최근 논문 (2023–2026)">Recent papers, 2023 – 2026</h2>
+        <p data-en="A selection spanning clinical outcomes research, translational pharmacology, and machine learning in surgical care. * first author · † corresponding author." data-ko="임상예후연구, 중개약리학, 외과영역 머신러닝을 아우르는 대표 논문입니다. *제1저자 · †교신저자.">A selection spanning clinical outcomes research, translational pharmacology, and machine learning in surgical care. * first author · † corresponding author.</p>
+      </div>
+
+      <div class="pub-year"><span class="num">2026</span><span class="line"></span></div>
+      <ul class="pubs">
+        <li>Yim SY, Kim H, Kim TH, <b>Kang SH</b>, Lee Y, Choi E, et al. Identifying sorafenib benefit among hepatocellular carcinoma patients: a transcriptomic and genomic approach. <span class="j">JHEP Reports.</span> 2026;101742.</li>
+      </ul>
+
+      <div class="pub-year"><span class="num">2025</span><span class="line"></span></div>
+      <ul class="pubs">
+        <li>Bong JW, Lee H, Jeong S, <b>Kang S†</b>. Older age threshold for oxaliplatin benefit in stage II to III colorectal cancer. <span class="j">JAMA Network Open.</span> 2025;8(8):e2525660.</li>
+        <li>Cheong C, Doo HM, Ju Y, Bong JW, <b>Kang SH</b>, Lee SI, et al. Polyglycolic acid–cyanoacrylate complex for prevention of major intestinal anastomotic leakage in a rat model. <span class="j">Annals of Surgical Treatment and Research.</span> 2025;109(5):335–343.</li>
+        <li>Kim DY, Kim BG, Yun HM, Kim OH, <b>Kang S</b>, Bong JW, et al. Trans-cinnamaldehyde enhances TRAIL-induced apoptosis through ER stress–mediated upregulation of DR5 in colorectal cancer cells. <span class="j">Scientific Reports.</span> 2025;15(1):38840.</li>
+        <li>Ju Y, Kim BG, Gim JA, Bong JW, Cheong CO, Oh SC, et al. Synergistic anticancer effects of fibroblast growth factor receptor inhibitor and cannabidiol in colorectal cancer. <span class="j">Nutrients.</span> 2025;17(16):2609.</li>
+        <li>Kim KE, Bae SU, Lee SH, Lim DR, Ha HK, Kim J, et al. The articulated laparoscopic total mesorectal excision for rectal cancer (ATOME trial): a single-arm, prospective trial with pre-specified comparison to robotic surgery. <span class="j">Trials.</span> 2025;26(1):260.</li>
+        <li>Cho N, Jeong I, Ahn S, Gil H, Kim Y, Park J, <b>Kang S</b>, Lee H. Machine learning to assist in managing acute kidney injury in general wards: multicenter retrospective study. <span class="j">Journal of Medical Internet Research.</span> 2025;27:e66568.</li>
+      </ul>
+
+      <div class="pub-year"><span class="num">2024</span><span class="line"></span></div>
+      <ul class="pubs">
+        <li>Ju Y, Bong JW, Cheong C, <b>Kang S</b>, Min BW, Lee SI. Effective utilization of polypectomy in endoscopic salvage treatment of rectal neuroendocrine tumors: a retrospective cohort study. <span class="j">Annals of Surgical Treatment and Research.</span> 2024;107(3):151–157.</li>
+        <li>Kim BG, Kim BR, Kim DY, Kim WY, <b>Kang S</b>, Lee SI, Oh SC. Cannabidiol enhances atezolizumab efficacy by upregulating PD-L1 expression via the cGAS–STING pathway in triple-negative breast cancer cells. <span class="j">Cancer Immunology Research.</span> 2024;12(12):1796–1807.</li>
+        <li>Yang SS, Kye BH, <b>Kang SH</b>, Kim CH, Kim JH, Kim WR, Lee KY, Park IK. Intracorporeal anastomosis in minimally invasive right hemicolectomy: a nationwide survey of the Korean Society of Coloproctology. <span class="j">Annals of Surgical Treatment and Research.</span> 2024;107(2):59–67.</li>
+        <li>Bong JW, Kim JY, Ju Y, Cheong C, <b>Kang S</b>, Lee SI, Min BW. Optimal withdrawal time in initial surveillance colonoscopy after colorectal cancer surgery. <span class="j">Annals of Surgical Treatment and Research.</span> 2024;107(4):212–220.</li>
+        <li>Kim BR, Kim DY, Tran NL, Kim BG, Lee SI, <b>Kang SH</b>, et al. Daunorubicin induces GLI1-dependent apoptosis in colorectal cancer cell lines. <span class="j">International Journal of Oncology.</span> 2024;64(6):1–13.</li>
+        <li>Cho NJ, Jeong I, Kim Y, Kim DO, Ahn SJ, <b>Kang SH</b>, et al. A machine learning-based approach for predicting renal function recovery in general ward patients with acute kidney injury. <span class="j">Kidney Research and Clinical Practice.</span> 2024;43(4):538.</li>
+      </ul>
+
+      <div class="pub-year"><span class="num">2023</span><span class="line"></span></div>
+      <ul class="pubs">
+        <li>Jeong YS, Eun YG, Lee SH, <b>Kang SH*</b>, Yim SY, Kim EH, Noh JK, et al. Clinically conserved genomic subtypes of gastric adenocarcinoma. <span class="j">Molecular Cancer.</span> 2023;22(1):147.</li>
+        <li>Bong JW, <b>Kang S*</b>, Park P. Multicenter study of prognostic factors in paraaortic lymph node dissection for metastatic colorectal cancer. <span class="j">Annals of Surgical Treatment and Research.</span> 2023;105(5):271.</li>
+        <li>Bong JW, Na Y, Ju Y, Cheong C, <b>Kang S</b>, Lee SI, Min BW. Nomogram for predicting the overall survival of underweight patients with colorectal cancer: a clinical study. <span class="j">BMC Gastroenterology.</span> 2023;23(1):39.</li>
+        <li>Kang AR, Kim JL, Kim YH, <b>Kang S</b>, Oh SC, Park JK. A novel RIP1-mediated canonical Wnt signaling pathway that promotes colorectal cancer metastasis via β-catenin stabilization-induced EMT. <span class="j">Cancer Gene Therapy.</span> 2023;1–11.</li>
+        <li>Yoon S, Ji WB, Kim JS, Hong KD, Um JW, Min BW, Lee SI, et al. Long-term oncologic outcome of D3 lymph node dissection for clinical stage 2/3 right-sided colon cancer. <span class="j">International Journal of Colorectal Disease.</span> 2023;38(1):42.</li>
+      </ul>
+
+      <p class="pub-note" data-en="This selection covers 2023–2026. For the complete, continuously updated list of peer-reviewed publications, see &lt;a href=&quot;https://orcid.org/0000-0002-6097-8831&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;ORCID: 0000-0002-6097-8831&lt;/a&gt;." data-ko="이 목록은 2023–2026년 논문 중 선별한 것입니다. 지속적으로 업데이트되는 전체 논문 목록은 &lt;a href=&quot;https://orcid.org/0000-0002-6097-8831&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;ORCID(0000-0002-6097-8831)&lt;/a&gt;에서 확인하실 수 있습니다.">This selection covers 2023–2026. For the complete, continuously updated list of peer-reviewed publications, see <a href="https://orcid.org/0000-0002-6097-8831" target="_blank" rel="noopener">ORCID: 0000-0002-6097-8831</a>.</p>
+    </div>
+  </section>
+
+  <section class="alt" id="join">
+    <div class="wrap">
+      <div class="join-band">
+        <div>
+          <h2 class="serif" data-en="Join O2B Lab" data-ko="O2B Lab에 합류하기">Join O2B Lab</h2>
+          <p data-en="We take graduate students, postdocs, and clinical fellows who want to work on real surgical specimens and see their findings tested against patient outcomes — not just published. Backgrounds in bioinformatics, organoid/organ-on-chip biology, or clinical data science are especially welcome." data-ko="실제 수술 검체를 다루고, 연구 결과가 출판으로만 끝나지 않고 환자 예후로 검증되는 과정을 경험하고 싶은 대학원생, 박사후연구원, 임상강사를 찾고 있습니다. 생물정보학, 오가노이드/organ-on-chip 생물학, 임상데이터과학 배경을 가진 분들을 특히 환영합니다.">We take graduate students, postdocs, and clinical fellows who want to work on real surgical specimens and see their findings tested against patient outcomes — not just published. Backgrounds in bioinformatics, organoid/organ-on-chip biology, or clinical data science are especially welcome.</p>
+        </div>
+        <a class="btn" href="mailto:kasaha1@korea.ac.kr?subject=O2B%20Lab%20inquiry" data-en="Get in touch →" data-ko="문의하기 →">Get in touch →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="photo-banner">
+    <img src="assets/photos/guro-hospital.jpg" alt="Korea University Guro Hospital building exterior">
+    <div class="cap"><b data-en="Korea University Guro Hospital" data-ko="고려대학교 구로병원">Korea University Guro Hospital</b> — <span data-en="Department of Surgery" data-ko="외과학교실">Department of Surgery</span></div>
+  </div>
+</main>
+
+<footer class="site" id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <svg viewBox="-4 -18 124 128" role="img" aria-label="O2B Lab mark"><path d="M6.0 20.0 C29.5 -17.0 64.3 -11.6 92.6 2.9" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/><path d="M108.0 12.0 L85.0 8.7 L96.1 -8.0 Z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="62" r="30"/><path d="M72 27 V97"/><path d="M72 27 H80 A17.5 17.5 0 0 1 80 62 H72"/><path d="M72 62 H84 A17.5 17.5 0 0 1 84 97 H72"/></g></svg>
+          <span class="name">O2B Lab</span>
+        </div>
+        <p style="max-width:32ch" data-en="Operation-to-Bench Translational Oncology&lt;br&gt;Korea University Guro Hospital" data-ko="오퍼레이션-투-벤치 중개종양학연구실&lt;br&gt;고려대학교 구로병원">Operation-to-Bench Translational Oncology<br>Korea University Guro Hospital</p>
+      </div>
+      <div class="foot-col">
+        <h4 data-en="Visit" data-ko="오시는 길">Visit</h4>
+        <p data-en="Department of Surgery&lt;br&gt;148 Gurodong-ro, Guro-gu&lt;br&gt;Seoul 08308, Republic of Korea" data-ko="외과학교실&lt;br&gt;서울특별시 구로구 구로동로 148&lt;br&gt;(우편번호 08308)">Department of Surgery<br>148 Gurodong-ro, Guro-gu<br>Seoul 08308, Republic of Korea</p>
+      </div>
+      <div class="foot-col">
+        <h4 data-en="Contact" data-ko="연락처">Contact</h4>
+        <a href="mailto:kasaha1@korea.ac.kr">kasaha1@korea.ac.kr</a>
+        <a href="tel:+82226261147">+82-2-2626-1147</a>
+        <a href="https://orcid.org/0000-0002-6097-8831" target="_blank" rel="noopener">ORCID 0000-0002-6097-8831</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-en="© 2026 O2B Lab, Korea University College of Medicine. Publications are affiliated with Korea University Guro Hospital." data-ko="© 2026 O2B Lab, 고려대학교 의과대학. 논문의 소속기관은 고려대학교 구로병원입니다.">© 2026 O2B Lab, Korea University College of Medicine. Publications are affiliated with Korea University Guro Hospital.</span>
+      <span>Operation to Bench</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function apply(lang){
+    document.documentElement.setAttribute('lang', lang === 'ko' ? 'ko' : 'en');
+    var nodes = document.querySelectorAll('[data-en]');
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      var val = lang === 'ko' ? el.getAttribute('data-ko') : el.getAttribute('data-en');
+      if (val !== null) el.innerHTML = val;
+    }
+    var btns = document.querySelectorAll('[data-set-lang]');
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].classList.toggle('active', btns[j].getAttribute('data-set-lang') === lang);
+    }
+    try { localStorage.setItem('o2b-lang', lang); } catch (e) {}
+  }
+  function init(){
+    var lang = 'en';
+    try {
+      var saved = localStorage.getItem('o2b-lang');
+      if (saved === 'en' || saved === 'ko') lang = saved;
+    } catch (e) {}
+    apply(lang);
+    var btns = document.querySelectorAll('[data-set-lang]');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function(){ apply(this.getAttribute('data-set-lang')); });
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
