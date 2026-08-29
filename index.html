@@ -66,7 +66,8 @@
   }
   h1,h2,h3,h4{ font-family:inherit; font-weight:700; letter-spacing:-.02em; text-wrap:balance; }
   a{ color:inherit }
-  img,svg{ max-width:100% }
+  /* width/height attrs are CLS hints only - height:auto lets aspect-ratio drive the box */
+  img,svg{ max-width:100%; height:auto }
 
   .wrap{ max-width:1120px; margin:0 auto; padding-left:28px; padding-right:28px }
   @media (max-width:640px){ .wrap{ padding-left:20px; padding-right:20px } }
