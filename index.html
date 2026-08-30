@@ -126,8 +126,8 @@
   .lang-toggle button:not(.active):hover{ color:var(--ink) }
 
   /* hero */
-  .hero{ padding:88px 0 76px; border-bottom:1px solid var(--line) }
-  .hero-grid{ display:grid; grid-template-columns:1.25fr .75fr; gap:56px; align-items:center }
+  .hero{ padding:80px 0 68px; border-bottom:1px solid var(--line) }
+  .hero-grid{ display:grid; grid-template-columns:1.08fr .92fr; gap:56px; align-items:center }
   @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; gap:40px } }
   .hero h1{ font-size:clamp(2.3rem,4.4vw,3.4rem); font-weight:700; margin:0 0 8px; line-height:1.08 }
   .hero .full-name{ color:var(--slate); font-size:1.02rem; margin:0 0 28px }
@@ -136,8 +136,25 @@
   .hero p.lede{ color:var(--ink-soft); font-size:1.03rem; max-width:56ch; margin:0 0 26px }
   .pi-line{ display:flex; align-items:center; gap:12px; font-size:.95rem; color:var(--slate) }
   .pi-line strong{ color:var(--ink); font-weight:600 }
-  .hero-mark{ display:flex; align-items:center; justify-content:center }
-  .hero-mark svg{ height:min(230px,32vw); width:auto; color:var(--accent) }
+  .eyebrow-row{ display:flex; align-items:center; gap:10px; margin:0 0 12px }
+  .eyebrow-row .eyebrow{ margin:0 }
+  .eyebrow-row img{ width:34px; flex:none }
+  .hero-cta{ display:flex; flex-wrap:wrap; gap:12px; margin:0 0 26px }
+  .btn-ghost{ background:transparent; color:var(--ink); border:1px solid var(--line) }
+  .btn-ghost:hover{ background:transparent; color:var(--accent); border-color:var(--accent) }
+  .hero-photo{ border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--bg-elev) }
+  .hero-photo img.or{ width:100%; height:auto; aspect-ratio:1079/700; object-fit:cover; display:block }
+  .hero-photo .photo-cap{ padding:15px 20px; display:flex; align-items:center; gap:12px; border-top:1px solid var(--line) }
+  .hero-photo .photo-cap svg{ height:34px; width:auto; color:var(--accent); flex:none }
+  .hero-photo .photo-cap p{ margin:0; font-size:.85rem; color:var(--slate); line-height:1.5 }
+
+  /* at-a-glance strip */
+  .glance{ border-bottom:1px solid var(--line); background:var(--bg-sunken) }
+  .glance-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; padding:26px 0 }
+  @media (max-width:860px){ .glance-grid{ grid-template-columns:1fr; gap:18px } }
+  .glance-item{ display:flex; flex-direction:column; gap:2px; border-left:3px solid var(--accent); padding-left:18px }
+  .glance-item .g-t{ font-weight:700; font-size:1.12rem; letter-spacing:-.02em }
+  .glance-item .g-d{ color:var(--slate); font-size:.88rem }
 
   section{ padding:76px 0 }
   section.alt{ background:var(--bg-sunken) }
@@ -155,10 +172,23 @@
   .loop-caption{ font-size:.85rem; color:var(--slate); text-align:center; max-width:32ch }
 
   /* research grid */
+  section#research{ position:relative; overflow:hidden }
+  .section-bg{ position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover;
+    filter:blur(3px); opacity:.38; transform:scale(1.04); pointer-events:none }
+  .section-bg-tint{ position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;
+    background:linear-gradient(180deg,
+      color-mix(in srgb, var(--bg-sunken) 45%, transparent),
+      color-mix(in srgb, var(--bg-sunken) 12%, transparent) 45%,
+      color-mix(in srgb, var(--bg-sunken) 50%, transparent)) }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .section-bg{ opacity:.22 } }
+  :root[data-theme="dark"] .section-bg{ opacity:.22 }
+  section#research > .wrap{ position:relative }
   .cluster{ margin-bottom:44px }
   .cluster:last-child{ margin-bottom:0 }
   .cluster h3{ font-size:1.02rem; font-weight:700; letter-spacing:.02em;
-    color:var(--ink-soft); margin:0 0 18px; padding-bottom:10px; border-bottom:1px solid var(--line) }
+    color:var(--ink-soft); margin:0 0 18px; padding-bottom:10px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px }
+  .cluster h3 svg{ width:22px; height:22px; color:var(--accent); flex:none }
   .card-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px }
   @media (max-width:860px){ .card-grid{ grid-template-columns:1fr 1fr } }
   @media (max-width:600px){ .card-grid{ grid-template-columns:1fr } }
@@ -343,20 +373,51 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="eyebrow" data-en="Korea University Guro Hospital · Department of Surgery" data-ko="고려대학교 구로병원 · 외과학교실">Korea University Guro Hospital · Department of Surgery</p>
+        <div class="eyebrow-row">
+          <img src="assets/photos/ku-emblem.png" width="220" height="216" alt="Korea University College of Medicine (KU Medicine) emblem" decoding="async">
+          <p class="eyebrow" data-en="Korea University Guro Hospital · Department of Surgery" data-ko="고려대학교 구로병원 · 외과학교실">Korea University Guro Hospital · Department of Surgery</p>
+        </div>
         <h1>O2B Lab</h1>
         <p class="full-name" data-en="Operation-to-Bench Translational Oncology, Korea University" data-ko="고려대학교 Operation-to-Bench 중개종양학 연구실">Operation-to-Bench Translational Oncology, Korea University</p>
         <p class="slogan" data-en="&quot;From the Operating Room to the Bench, and Back to the Patient.&quot;" data-ko="&quot;수술장에서 실험실로, 그리고 다시 환자에게.&quot;">"From the Operating Room to the Bench, and Back to the Patient."</p>
         <p class="lede" data-en="We are a surgeon-led translational oncology laboratory built around a simple loop: unmet needs identified in the operating room and clinic become bench questions, and bench findings are pressure-tested against real surgical specimens and outcomes before they are asked to matter for patients." data-ko="저희는 하나의 단순한 순환 구조 위에 세워진 외과의사 주도 중개종양학 연구실입니다. 수술장과 외래에서 발견한 미해결 임상 문제가 실험실의 연구 질문이 되고, 실험실에서 얻은 결과는 실제 수술 검체와 환자 예후로 다시 검증받은 뒤에야 비로소 환자 진료에 활용됩니다.">We are a surgeon-led translational oncology laboratory built around a simple loop: unmet needs identified in the operating room and clinic become bench questions, and bench findings are pressure-tested against real surgical specimens and outcomes before they are asked to matter for patients.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#research" data-en="Explore our research" data-ko="연구분야 보기">Explore our research</a>
+          <a class="btn btn-ghost" href="#join" data-en="Join us →" data-ko="합류 문의 →">Join us →</a>
+        </div>
         <div class="pi-line">
           <span data-en="Principal Investigator —" data-ko="책임교수 —">Principal Investigator —</span><strong>Sanghee Kang, M.D., Ph.D.</strong>
         </div>
       </div>
-      <div class="hero-mark">
-        <svg viewBox="-4 -18 124 128" role="img" aria-label="O2B Lab canopy mark, large"><path d="M6.0 20.0 C29.5 -17.0 64.3 -11.6 92.6 2.9" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/><path d="M108.0 12.0 L85.0 8.7 L96.1 -8.0 Z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="62" r="30"/><path d="M72 27 V97"/><path d="M72 27 H80 A17.5 17.5 0 0 1 80 62 H72"/><path d="M72 62 H84 A17.5 17.5 0 0 1 84 97 H72"/></g></svg>
+      <div class="hero-photo">
+        <picture>
+          <source srcset="assets/photos/robotic-surgery.webp" type="image/webp">
+          <img class="or" src="assets/photos/robotic-surgery.jpg" width="1079" height="700" alt="Minimally invasive robotic surgery in progress at Korea University Guro Hospital" fetchpriority="high" decoding="async">
+        </picture>
+        <div class="photo-cap">
+          <svg viewBox="0 0 170 120" role="img" aria-label="Operation to bench loop mark"><g fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"><path d="M51.5 35.4 A44 44 0 0 1 124.5 35.4"/><path d="M124.5 84.6 A44 44 0 0 1 51.5 84.6"/></g><g fill="currentColor"><path d="M124.5 35.4 L111.8 28.2 L122.6 21.0 Z"/><path d="M51.5 84.6 L64.2 91.8 L53.4 99.0 Z"/></g><g fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="30" cy="60" r="20"/><path d="M136 30 V90"/><path d="M136 30 H142 A15 15 0 0 1 142 60 H136"/><path d="M136 60 H145 A15 15 0 0 1 145 90 H136"/></g></svg>
+          <p data-en="The operating room at Korea University Guro Hospital — where every research question in this lab begins." data-ko="고려대학교 구로병원 수술장 — 복강경·로봇 수술 현장에서 모든 연구 질문이 시작됩니다.">The operating room at Korea University Guro Hospital — where every research question in this lab begins.</p>
+        </div>
       </div>
     </div>
   </section>
+
+  <div class="glance">
+    <div class="wrap glance-grid">
+      <div class="glance-item">
+        <span class="g-t" data-en="3 active national programs" data-ko="진행 중 국책과제 3건">3 active national programs</span>
+        <span class="g-d" data-en="ARPA-H · MFDS · KIST, subproject PI" data-ko="ARPA-H · MFDS · KIST 세부과제 책임">ARPA-H · MFDS · KIST, subproject PI</span>
+      </div>
+      <div class="glance-item">
+        <span class="g-t" data-en="Five-organ organoid bank" data-ko="5개 장기 오가노이드 뱅크">Five-organ organoid bank</span>
+        <span class="g-d" data-en="Colon · stomach · liver · lung · kidney, from surgical specimens" data-ko="대장 · 위 · 간 · 폐 · 신장 수술 검체 유래">Colon · stomach · liver · lung · kidney, from surgical specimens</span>
+      </div>
+      <div class="glance-item">
+        <span class="g-t" data-en="Surgeon-led translational research" data-ko="외과의사 주도 중개연구">Surgeon-led translational research</span>
+        <span class="g-d" data-en="Two surgical divisions + the bench, one team" data-ko="두 외과 분과 + 실험실 공동 연구팀">Two surgical divisions + the bench, one team</span>
+      </div>
+    </div>
+  </div>
 
   <section id="about">
     <div class="wrap about-grid">
@@ -375,6 +436,8 @@
   </section>
 
   <section class="alt" id="research">
+    <img class="section-bg" src="assets/photos/lab-bench.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <div class="section-bg-tint" aria-hidden="true"></div>
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow" data-en="Research Focus" data-ko="연구 분야">Research Focus</p>
@@ -404,7 +467,7 @@
       </div>
 
       <div class="cluster">
-        <h3 data-en="Clinical &amp; Translational Oncology" data-ko="임상·중개 종양학">Clinical &amp; Translational Oncology</h3>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M8 3h8M9 7l-4.5 8.5A4 4 0 0 0 8 21h8a4 4 0 0 0 3.5-5.5L15 7"/><path d="M7.5 15h9"/></svg><span data-en="Clinical &amp; Translational Oncology" data-ko="임상·중개 종양학">Clinical &amp; Translational Oncology</span></h3>
         <div class="card-grid">
           <div class="card">
             <div class="t" data-en="Colorectal cancer liver metastasis (CRLM)" data-ko="대장암 간전이(CRLM)">Colorectal cancer liver metastasis (CRLM)</div>
@@ -430,7 +493,7 @@
       </div>
 
       <div class="cluster">
-        <h3 data-en="Cancer Genomics &amp; Clinical AI" data-ko="암 유전체학 및 임상 AI">Cancer Genomics &amp; Clinical AI</h3>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg><span data-en="Cancer Genomics &amp; Clinical AI" data-ko="암 유전체학 및 임상 AI">Cancer Genomics &amp; Clinical AI</span></h3>
         <div class="card-grid">
           <div class="card">
             <div class="t" data-en="Cancer genomics &amp; multi-omics" data-ko="암 유전체학 및 멀티오믹스">Cancer genomics &amp; multi-omics</div>
@@ -448,7 +511,7 @@
       </div>
 
       <div class="cluster">
-        <h3 data-en="Preclinical &amp; Biofabrication Platforms" data-ko="전임상 및 생체모사 플랫폼">Preclinical &amp; Biofabrication Platforms</h3>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="4"/><circle cx="16" cy="15" r="4"/><path d="M11 12l2 1"/></svg><span data-en="Preclinical &amp; Biofabrication Platforms" data-ko="전임상 및 생체모사 플랫폼">Preclinical &amp; Biofabrication Platforms</span></h3>
         <div class="card-grid">
           <div class="card">
             <div class="t" data-en="Patient-derived organoids &amp; CAF" data-ko="환자유래 오가노이드 및 CAF">Patient-derived organoids &amp; CAF</div>
