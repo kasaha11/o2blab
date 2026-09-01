@@ -172,17 +172,19 @@
   .loop-caption{ font-size:.85rem; color:var(--slate); text-align:center; max-width:32ch }
 
   /* research grid */
-  section#research{ position:relative; overflow:hidden }
+  section#research, section#about{ position:relative; overflow:hidden }
+  section#research{ --tint-color:var(--bg-sunken) }
+  section#about{ --tint-color:var(--bg) }
   .section-bg{ position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover;
     filter:blur(3px); opacity:.38; transform:scale(1.04); pointer-events:none }
   .section-bg-tint{ position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;
     background:linear-gradient(180deg,
-      color-mix(in srgb, var(--bg-sunken) 45%, transparent),
-      color-mix(in srgb, var(--bg-sunken) 12%, transparent) 45%,
-      color-mix(in srgb, var(--bg-sunken) 50%, transparent)) }
+      color-mix(in srgb, var(--tint-color) 45%, transparent),
+      color-mix(in srgb, var(--tint-color) 12%, transparent) 45%,
+      color-mix(in srgb, var(--tint-color) 50%, transparent)) }
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .section-bg{ opacity:.22 } }
   :root[data-theme="dark"] .section-bg{ opacity:.22 }
-  section#research > .wrap{ position:relative }
+  section#research > .wrap, section#about > .wrap{ position:relative }
   .cluster{ margin-bottom:44px }
   .cluster:last-child{ margin-bottom:0 }
   .cluster h3{ font-size:1.02rem; font-weight:700; letter-spacing:.02em;
@@ -426,6 +428,8 @@
   </div>
 
   <section id="about">
+    <img class="section-bg" src="assets/photos/lab-bench.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <div class="section-bg-tint" aria-hidden="true"></div>
     <div class="wrap about-grid">
       <div>
         <p class="eyebrow" data-en="Operation to Bench" data-ko="Operation to Bench">Operation to Bench</p>
@@ -442,7 +446,7 @@
   </section>
 
   <section class="alt" id="research">
-    <img class="section-bg" src="assets/photos/lab-bench.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img class="section-bg" src="assets/photos/kumc-dusk.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
     <div class="section-bg-tint" aria-hidden="true"></div>
     <div class="wrap">
       <div class="section-head">
