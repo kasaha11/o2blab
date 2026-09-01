@@ -288,11 +288,21 @@
   .btn:hover{ background:var(--accent-deep) }
 
   /* photo banner */
-  .photo-banner{ position:relative; height:260px; overflow:hidden }
+  .photo-banner{ position:relative; height:340px; overflow:hidden }
+  @media (max-width:640px){ .photo-banner{ height:240px } }
   .photo-banner img{ width:100%; height:100%; object-fit:cover; display:block }
   .photo-banner .cap{ position:absolute; left:0; right:0; bottom:0; padding:18px 28px;
     background:linear-gradient(0deg, rgba(0,0,0,.62), rgba(0,0,0,0)); color:#F4F1EE; font-size:.88rem }
   .photo-banner .cap b{ font-weight:600 }
+
+  /* campus strip */
+  .campus{ padding:34px 0 44px }
+  .campus-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px }
+  @media (max-width:860px){ .campus-grid{ grid-template-columns:1fr } }
+  .campus-card{ background:var(--bg-elev); border:1px solid var(--line); border-radius:12px; overflow:hidden }
+  .campus-card img{ width:100%; aspect-ratio:3/2; object-fit:cover; display:block }
+  .campus-card figcaption{ padding:12px 16px; font-size:.85rem; color:var(--slate) }
+  .campus-card figure{ margin:0 }
 
   /* footer */
   footer.site{ background:var(--footer-bg); color:var(--footer-ink); padding:56px 0 34px }
@@ -741,10 +751,42 @@
 
   <div class="photo-banner">
     <picture>
-      <source srcset="assets/photos/guro-hospital.webp" type="image/webp">
-      <img src="assets/photos/guro-hospital.jpg" width="600" height="375" alt="Korea University Guro Hospital building exterior" loading="lazy" decoding="async">
+      <source srcset="assets/photos/kumc-aerial.webp" type="image/webp">
+      <img src="assets/photos/kumc-aerial.jpg" width="1920" height="873" alt="Night aerial view of the Korea University Guro Hospital campus, including the new cancer hospital" loading="lazy" decoding="async">
     </picture>
-    <div class="cap"><b data-en="Korea University Guro Hospital" data-ko="고려대학교 구로병원">Korea University Guro Hospital</b> — <span data-en="Department of Surgery" data-ko="외과학교실">Department of Surgery</span></div>
+    <div class="cap"><b data-en="Korea University Guro Hospital" data-ko="고려대학교 구로병원">Korea University Guro Hospital</b> — <span data-en="the full campus, including the new cancer hospital" data-ko="새 암병원을 포함한 전체 전경">the full campus, including the new cancer hospital</span></div>
+  </div>
+
+  <div class="campus">
+    <div class="wrap campus-grid">
+      <div class="campus-card">
+        <figure>
+          <picture>
+            <source srcset="assets/photos/kumc-dusk.webp" type="image/webp">
+            <img src="assets/photos/kumc-dusk.jpg" width="1200" height="750" alt="Korea University Guro Hospital main building at dusk" loading="lazy" decoding="async">
+          </picture>
+          <figcaption data-en="Korea University Guro Hospital at dusk" data-ko="고려대학교 구로병원 전경">Korea University Guro Hospital at dusk</figcaption>
+        </figure>
+      </div>
+      <div class="campus-card">
+        <figure>
+          <picture>
+            <source srcset="assets/photos/kumc-library.webp" type="image/webp">
+            <img src="assets/photos/kumc-library.jpg" width="1200" height="556" alt="Medical library at Korea University Guro Hospital" loading="lazy" decoding="async">
+          </picture>
+          <figcaption data-en="Medical library" data-ko="의학도서실">Medical library</figcaption>
+        </figure>
+      </div>
+      <div class="campus-card">
+        <figure>
+          <picture>
+            <source srcset="assets/photos/kumc-hall.webp" type="image/webp">
+            <img src="assets/photos/kumc-hall.jpg" width="1200" height="876" alt="Multipurpose hall at Korea University Guro Hospital" loading="lazy" decoding="async">
+          </picture>
+          <figcaption data-en="Multipurpose hall" data-ko="다목적홀">Multipurpose hall</figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </main>
 
