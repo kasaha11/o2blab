@@ -184,6 +184,9 @@
       color-mix(in srgb, var(--tint-color) 50%, transparent)) }
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .section-bg{ opacity:.22 } }
   :root[data-theme="dark"] .section-bg{ opacity:.22 }
+  section#research .section-bg{ filter:blur(2px); opacity:.55 }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) section#research .section-bg{ opacity:.34 } }
+  :root[data-theme="dark"] section#research .section-bg{ opacity:.34 }
   section#research > .wrap, section#about > .wrap{ position:relative }
   .cluster{ margin-bottom:44px }
   .cluster:last-child{ margin-bottom:0 }
